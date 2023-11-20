@@ -12,6 +12,10 @@ def tomysql():
     )
     print(conn)
     cursor = conn.cursor()
-    result = cursor.execute('select * from personinfo limit 10')
+    result = cursor.execute('select count(1) from testPrepare.personinfo limit 10')
     print(result)
     conn.close()
+
+
+if __name__ == '__main__':
+    tomysql()
