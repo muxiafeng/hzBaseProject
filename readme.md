@@ -1,7 +1,16 @@
 ## 测试用的小项目，挂在云服务器上，供自动化测试调用或压测调用
 
+### 配置信息
++ ip：117.50.117.15
++ 服务port：5000
+
+### 数据库信息
++ 数据库port：3306
++ 账号：root
++ 密码：mysql123？
+
 ### 接口列表
-+ 大乐透
++ daletou
   + 说明：返回最近一次的大乐透开奖信息
   + url：/daletou
   + method：GET
@@ -32,6 +41,12 @@
   + 请求示例：http://ip:5000/json
   + 参数示例：{"name":"com.pregnancy","bundle":"com.pregnancy","ver":"9.10.0"}
   + 返回示例：{"code":200,"message":"name:com.pregnancy bundle:com.pregnancy ver:9.10.0 "}
-
++ login
+  + 说明：模拟登录并返回cookie
+  + url：/login
+  + method：POST
+  + 请求示例：http://ip:5000/json
+  + 参数示例：{"name":"com.pregnancy","bundle":"com.pregnancy","ver":"9.10.0"}
+  + 返回示例：
 ### TODO
 + 数据库连接

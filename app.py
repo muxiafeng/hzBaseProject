@@ -3,6 +3,7 @@ from util import cjson
 import requests
 import json
 from faker import Faker
+import base64
 
 app = Flask(__name__)
 
@@ -95,6 +96,50 @@ def post1():
         'message': data_str
     }
     return jsonify(data)
+
+
+# 假设这是我们的用户数据库
+users = {
+    "user1": "password1",
+    "user2": "password2",
+}
+
+# 模拟cookie存储
+cookies = {}
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()  # 获取POST数据
+    username = data.get('username')
+    password = data.get('password')
+
+    if username in users and users[username] == password:
+        # 模拟设置cookie
+        mess = username + "loginSuccess"
+        # 将数据转换为 bytes 类型
+        data_bytes = mess.encode('utf-8')
+        # 使用 base64 对数据进行加密
+        encoded_data = base64.b64encode(data_bytes)
+        cookie = "base64=" + encoded_data.decode('utf-8')
+        return jsonify({'code': 200, 'message': "登录成功！"}), 200, {'Set-Cookie': cookie}
+    else:
+        return jsonify({'code': '401', 'message': 'Invalid username or password'}), 401
+
+
+@app.route('/authenticate', methods=['GET'])
+def authenticate():
+    cookie = request.cookies.get("base64")
+    # print(cookie)
+    # 将数据转换为 bytes 类型
+    encoded_data_bytes = cookie.encode('utf-8')
+    # 使用 base64 对数据进行解密
+    decoded_data = (base64.b64decode(encoded_data_bytes)).decode('utf-8')
+    # print(decoded_data)  # 输出解密后的数据
+    if "loginSuccess" in decoded_data and decoded_data.replace("loginSuccess", "") in users:
+        return jsonify({'code': 200, 'message': "鉴定登录成功！"}), 200
+    else:
+        return jsonify({'status': 'failed', 'message': 'Invalid cookie'}), 401
 
 
 if __name__ == '__main__':
