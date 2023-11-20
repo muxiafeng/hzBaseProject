@@ -137,7 +137,7 @@ def authenticate():
     decoded_data = (base64.b64decode(encoded_data_bytes)).decode('utf-8')
     # print(decoded_data)  # 输出解密后的数据
     if "loginSuccess" in decoded_data and decoded_data.replace("loginSuccess", "") in users:
-        return jsonify({'code': 200, 'message': "鉴定登录成功！"}), 200
+        return jsonify({'code': 200, 'message': "鉴定" + decoded_data.replace("loginSuccess", "") + "登录成功！"}), 200
     else:
         return jsonify({'status': 'failed', 'message': 'Invalid cookie'}), 401
 
