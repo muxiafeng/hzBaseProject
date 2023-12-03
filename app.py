@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, make_response
-from util import toMysql
+from util import cjson
 import requests
 import json
 from faker import Faker
@@ -140,31 +140,6 @@ def authenticate():
         return jsonify({'code': 200, 'message': "鉴定" + decoded_data.replace("loginSuccess", "") + "登录成功！"}), 200
     else:
         return jsonify({'status': 'failed', 'message': 'Invalid cookie'}), 401
-
-
-@app.route('/select', methods=['GET'])
-def select():
-    page = request.args.get('page')
-    num = request.args.get('num')
-    page = 1 if page is None or page == '0' else int(page)
-    num = 10 if num is None or num == '0' else int(num)
-    print(page, type(page))
-    print(num, type(num))
-    page = (int(page) - 1) * num
-    print(page)
-    sql = 'select * from personinfo limit ' + str(num) + ' offset ' + str(page)
-    print(sql)
-    result = toMysql.linkMysql(sql)
-    if result:
-        data = {
-            'code': 200,
-            'message': result
-        }
-    else:
-        data = {
-            'message': '查询失败，没有相应数据，请检查对应sql是否正确！'
-        }
-    return jsonify(data)
 
 
 if __name__ == '__main__':
