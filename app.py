@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request, make_response
-from util import cjson
 import requests
 import json
 from faker import Faker
 import base64
+from util import toMysql
 
 app = Flask(__name__)
 
@@ -140,6 +140,21 @@ def authenticate():
         return jsonify({'code': 200, 'message': "鉴定" + decoded_data.replace("loginSuccess", "") + "登录成功！"}), 200
     else:
         return jsonify({'status': 'failed', 'message': 'Invalid cookie'}), 401
+
+
+@app.route('/dailyMeeting', methods=['GET'])
+def dailyMeeting():
+    text = toMysql.read_latest_data(toMysql.connect())
+    print(text)
+    print('id', text[0])
+    print('message', text[1])
+    print('time', text[2])
+    print('user', text[3])
+    data = {
+        'code': 200,
+        'message': text
+    }
+    return jsonify(data)
 
 
 if __name__ == '__main__':
