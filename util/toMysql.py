@@ -29,7 +29,7 @@ def connect():
 def read_latest_data(connection):
     try:
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM dailyMeeting ORDER BY id DESC LIMIT 1")
+        cursor.execute("SELECT * FROM dailyMeeting ORDER BY id DESC LIMIT 1;")
         result = cursor.fetchone()
         if result:
             # print(f'Latest data: {result}')
