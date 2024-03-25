@@ -1,0 +1,14 @@
+Faker==24.2.0
+flask==3.0.2
+importlib-metadata==7.0.2
+itsdangerous==2.1.2
+mysql-connector==2.2.9
+pip==23.2.1
+python-dateutil==2.9.0.post0
+setuptools==68.2.0
+six==1.16.0
+typing-extensions==4.10.0
+werkzeug==3.0.1
+wheel==0.41.2
+zipp==3.18.1
+requests==2.31.0
