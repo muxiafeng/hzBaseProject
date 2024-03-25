@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HOMEPAGE</title>
+    <style>
+        body{
+            background-color: #f0f0f0;
+            font-family: "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h2>测试用的小项目，挂在云服务器上，供自动化测试调用或压测调用</h2>
+<h3>配置信息</h3>
+<ul>
+    <li>ip：117.50.117.15</li>
+    <li>服务port：5000</li>
+</ul>
+<h3>数据库信息</h3>
+<ul>
+    <li>数据库port：3306</li>
+    <li>账号：root</li>
+    <li>密码：mysql123？</li>
+</ul>
+<h3>接口列表</h3>
+<h4>daletou</h4>
+<ul>
+    <li>说明：返回最近一次的大乐透开奖信息</li>
+    <li>url：/daletou</li>
+    <li>method：GET</li>
+    <li>请求示例：http://ip:5000/daletou</li>
+    <li>返回示例：{"code":200,"message":"第23128期大乐透开奖时间：2023-11-08，开奖号码为：01 05 07 12 13 02 06"}</li>
+    <li>personinfo</li>
+    <li>说明：返回一条个人信息，包含姓名、手机号、地址</li>
+    <li>url：/personinfo</li>
+    <li>method：GET</li>
+    <li>请求示例：http://ip:5000/personinfo</li>
+    <li>返回示例：{"code":200,"message":{"address":"711 Wright Pike Apt. 813\nGrimesborough, DC 33815","name":"Lisa
+        Fry","phone":"953.682.0576x25655"}}
+    </li>
+    <li>newperson</li>
+    <li>说明：模拟添加一条个人信息，入参name、phone，name为字符串，不为空和纯符号，phone为数字</li>
+    <li>url：/newperson</li>
+    <li>method：GET</li>
+    <li>请求示例：http://ip:5000/newperson?name=tom&amp;phone=123123123</li>
+    <li>返回示例：{"code":200,"message":{"address":"87252 Dan Burgs\nWest Andrewmouth, DE
+        92473","name":"tom","phone":"123123123"}}
+    </li>
+    <li>error</li>
+    <li>说明：返回错误信息和状态码401</li>
+    <li>url：/error</li>
+    <li>method：GET</li>
+    <li>请求示例：http://ip:5000/error</li>
+    <li>返回示例：{"error":"未授权访问"}</li>
+    <li>json</li>
+    <li>说明：输入一个json，拼接键值对返回一个字符串</li>
+    <li>url：/daletou</li>
+    <li>method：POST</li>
+    <li>请求示例：http://ip:5000/json</li>
+    <li>参数示例：{"name":"com.pregnancy","bundle":"com.pregnancy","ver":"9.10.0"}</li>
+    <li>返回示例：{"code":200,"message":"name:com.pregnancy bundle:com.pregnancy ver:9.10.0 "}</li>
+    <li>login</li>
+    <li>说明：模拟登录并返回cookie</li>
+    <li>url：/login</li>
+    <li>method：POST</li>
+    <li>请求示例：http://ip:5000/json</li>
+    <li>参数示例：{"name":"com.pregnancy","bundle":"com.pregnancy","ver":"9.10.0"}</li>
+    <li>返回示例：</li>
+</ul>
+<h3>TODO</h3>
+<ul>
+    <li>数据库连接</li>
+</ul>
+</body>
+</html>

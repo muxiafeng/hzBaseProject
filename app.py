@@ -1,9 +1,11 @@
-from flask import Flask, jsonify, request, make_response
+from flask import Flask, jsonify, request, make_response, render_template
 import requests
 import json
 from faker import Faker
 import base64
 from util import toMysql
+import os
+import markdown
 
 app = Flask(__name__)
 
@@ -11,6 +13,11 @@ error_data = {
     'code': 0,
     'message': 'error'
 }
+
+
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('home.html')
 
 
 @app.route('/daletou', methods=['GET'])
