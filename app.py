@@ -1,11 +1,20 @@
-from flask import Flask, jsonify, request, make_response, render_template
-import requests
-import json
-from faker import Faker
 import base64
-from util import toMysql
-import os
-import markdown
+import json
+
+import mysql.connector
+import requests
+from faker import Faker
+from flask import Flask, jsonify, request, make_response
+
+# 连接数据库
+mydb = mysql.connector.connect(
+    user='root',
+    password='123456',
+    port=3309,
+    host='121.37.220.0',
+    database='hongzhi',
+    auth_plugin='mysql_native_password'
+)
 
 app = Flask(__name__)
 
@@ -13,11 +22,6 @@ error_data = {
     'code': 0,
     'message': 'error'
 }
-
-
-@app.route('/', methods=['GET'])
-def home():
-    return render_template('home.html')
 
 
 @app.route('/daletou', methods=['GET'])
@@ -151,7 +155,11 @@ def authenticate():
 
 @app.route('/dailyMeeting', methods=['GET'])
 def dailyMeeting():
-    text = toMysql.read_latest_data(toMysql.connect())
+    # 执行数据库查询
+    cursor = mydb.cursor()
+    cursor.execute("SELECT * FROM dailyMeeting ORDER BY id DESC LIMIT 1;")
+    text = cursor.fetchone()
+    # text = toMysql.read_latest_data(toMysql.connect())
     print(text)
     print('id', text[0])
     print('message', text[1])

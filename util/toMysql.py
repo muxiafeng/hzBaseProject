@@ -1,15 +1,16 @@
 import mysql.connector
-from mysql.connector import MySQLConnection, Error
+from mysql.connector import Error
 from mysql.connector.constants import ClientFlag
 
 # MySQL数据库连接配置
 db_config = {
     'user': 'root',
     'password': '123456',
-    'port': 3308,
+    'port': 3309,
     'host': '121.37.220.0',
     'database': 'hongzhi',
-    'client_flags': [ClientFlag.LOCAL_FILES]
+    'client_flags': [ClientFlag.LOCAL_FILES],
+    'auth_plugin': 'mysql_native_password'
 }
 
 
@@ -21,7 +22,7 @@ def connect():
             # print('Connected to MySQL database')
             return connection
     except Error as e:
-        # print(f'Error: {e}')
+        print(f'Error: {e}')
         return None
 
 
