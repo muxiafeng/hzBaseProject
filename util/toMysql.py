@@ -33,7 +33,7 @@ def read_latest_data(connection):
         cursor.execute("SELECT * FROM dailyMeeting ORDER BY id DESC LIMIT 1;")
         result = cursor.fetchone()
         if result:
-            # print(f'Latest data: {result}')
+            print(f'Latest data: {result}')
             return result
     except Error as e:
         # print(f'Error: {e}')

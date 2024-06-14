@@ -1,20 +1,11 @@
 import base64
 import json
 
-import mysql.connector
 import requests
 from faker import Faker
 from flask import Flask, jsonify, request, make_response
 
-# 连接数据库
-mydb = mysql.connector.connect(
-    user='root',
-    password='123456',
-    port=3309,
-    host='121.37.220.0',
-    database='hongzhi',
-    auth_plugin='mysql_native_password'
-)
+import util.connectMysql
 
 app = Flask(__name__)
 
@@ -156,18 +147,15 @@ def authenticate():
 @app.route('/dailyMeeting', methods=['GET'])
 def dailyMeeting():
     # 执行数据库查询
-    cursor = mydb.cursor()
-    cursor.execute("SELECT * FROM dailyMeeting ORDER BY id DESC LIMIT 1;")
-    text = cursor.fetchone()
-    # text = toMysql.read_latest_data(toMysql.connect())
-    print(text)
-    print('id', text[0])
-    print('message', text[1])
-    print('time', text[2])
-    print('user', text[3])
+    result = util.connectMysql.connect_mysql('select * from dailyMeeting limit 1;')
+    # print(result)
+    # print('id', result[0][0])
+    # print('message', result[0][1])
+    # print('time', result[0][2])
+    # print('user', result[0][3])
     data = {
         'code': 200,
-        'message': text
+        'message': result[0]
     }
     return jsonify(data)
 
