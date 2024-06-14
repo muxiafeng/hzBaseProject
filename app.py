@@ -1,5 +1,6 @@
 import base64
 import json
+from datetime import datetime
 
 import requests
 from faker import Faker
@@ -156,6 +157,18 @@ def dailyMeeting():
     data = {
         'code': 200,
         'message': result[0]
+    }
+    return jsonify(data)
+
+
+@app.route('/dailyEnglishWords', methods=['GET'])
+def dailyEnglishWords():
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    result = util.connectMysql.connect_mysql(f"SELECT word,wordexplain FROM englishword where tag =1 and time='{today}' LIMIT 10;")
+    data = {
+        'code': 200,
+        'message': result
     }
     return jsonify(data)
 
