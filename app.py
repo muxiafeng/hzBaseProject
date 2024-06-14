@@ -147,7 +147,7 @@ def authenticate():
 @app.route('/dailyMeeting', methods=['GET'])
 def dailyMeeting():
     # 执行数据库查询
-    result = util.connectMysql.connect_mysql('select * from dailyMeeting limit 1;')
+    result = util.connectMysql.connect_mysql('select * from dailyMeeting order by time desc limit 1;')
     # print(result)
     # print('id', result[0][0])
     # print('message', result[0][1])
