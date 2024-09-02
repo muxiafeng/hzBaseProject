@@ -6,14 +6,26 @@ import requests
 from faker import Faker
 from flask import Flask, jsonify, request, make_response
 
+import getConfig
 import util.connectMysql
 
 app = Flask(__name__)
+# api = Api(app)
+
+# base = Namespace("base", description='base项目')
 
 error_data = {
     'code': 0,
     'message': 'error'
 }
+
+
+# @base.route('/base')
+
+
+@app.route('/', methods=['GET'])
+def home():
+    return 'HOME'
 
 
 @app.route('/daletou', methods=['GET'])
@@ -112,7 +124,7 @@ cookies = {}
 
 
 @app.route('/login', methods=['POST'])
-def login():
+def login(users=None):
     data = request.get_json()  # 获取POST数据
     username = data.get('username')
     password = data.get('password')
@@ -131,7 +143,7 @@ def login():
 
 
 @app.route('/authenticate', methods=['GET'])
-def authenticate():
+def authenticate(users=None):
     cookie = request.cookies.get("base64")
     # print(cookie)
     # 将数据转换为 bytes 类型
@@ -140,7 +152,8 @@ def authenticate():
     decoded_data = (base64.b64decode(encoded_data_bytes)).decode('utf-8')
     # print(decoded_data)  # 输出解密后的数据
     if "loginSuccess" in decoded_data and decoded_data.replace("loginSuccess", "") in users:
-        return jsonify({'code': 200, 'message': "鉴定" + decoded_data.replace("loginSuccess", "") + "登录成功！"}), 200
+        return jsonify(
+            {'code': 200, 'message': "鉴定" + decoded_data.replace("loginSuccess", "") + "登录成功！"}), 200
     else:
         return jsonify({'status': 'failed', 'message': 'Invalid cookie'}), 401
 
@@ -165,7 +178,8 @@ def dailyMeeting():
 def dailyEnglishWords():
     today = datetime.now().strftime("%Y-%m-%d")
 
-    result = util.connectMysql.connect_mysql(f"SELECT word,wordexplain FROM englishword where tag =1 and time='{today}' LIMIT 10;")
+    result = util.connectMysql.connect_mysql(
+        f"SELECT word,wordexplain FROM englishword where tag =1 and time='{today}' LIMIT 10;")
     data = {
         'code': 200,
         'message': result
@@ -173,6 +187,35 @@ def dailyEnglishWords():
     return jsonify(data)
 
 
+@app.route('/sendNotification', methods=['POST'])
+def sendNotification(users=None):
+    data = request.get_json()  # 获取POST数据
+    to = data.get('toMan')
+    text = data.get('text')
+
+    flag = True
+    if 'hongzhi' in to:
+        key = getConfig.get_config('ios', 'hongzhi_key')
+    elif 'tingting' in to:
+        key = getConfig.get_config('ios', 'tingting_key')
+    else:
+        response = make_response(jsonify({'error': '发送失败'}), 200)
+        flag = False
+
+    if flag is not False:
+        url = f'https://api2.pushdeer.com/message/push?pushkey={key}&text={text}'
+
+        res = requests.request('GET', url=url)
+
+        print(res.content)
+        if res.status_code == 200:
+            data = {
+                'code': 200,
+                'message': 'send success!'
+            }
+        return jsonify(data)
+
+# api.add_namespace(base, '/base')
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
     # app.run(debug=True)
