@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 # 配置数据库连接参数
-host = '121.37.220.0'  # 数据库地址，对于远程数据库，指定为IP地址
+host = '116.63.90.81'  # 数据库地址，对于远程数据库，指定为IP地址
 port = 3309
 database = 'hongzhi'  # 数据库名
 user = 'root'  # 数据库用户名

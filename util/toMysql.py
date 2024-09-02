@@ -7,7 +7,7 @@ db_config = {
     'user': 'root',
     'password': '123456',
     'port': 3309,
-    'host': '121.37.220.0',
+    'host': '116.63.90.81',
     'database': 'hongzhi',
     'client_flags': [ClientFlag.LOCAL_FILES],
     'auth_plugin': 'mysql_native_password'
